@@ -1,4 +1,5 @@
 from django.db import models
+from account.models import User
 
 # Create your models here.
 class Categories(models.Model):
@@ -17,6 +18,7 @@ class MenuItem(models.Model):
         return f"{self.name}"
 
 class CartItem(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE);
     item = models.ForeignKey(MenuItem, on_delete=models.CASCADE);
     quantity = models.IntegerField()
 
