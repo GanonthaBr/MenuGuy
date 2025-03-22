@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-xq_dd$x1%kgr@1gddoknh%jh%mvw^5%8fpy3zi3x%=3d%d#4+0
 DEBUG = True
 AUTH_USER_MODEL = 'account.User'
 
+
 ALLOWED_HOSTS = []
 
 
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'restaurant',
     'account',
+
 ]
 
 MIDDLEWARE = [
@@ -124,3 +126,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+#keep user logged in for 90 days
+SESSION_COOKIE_AGE = 7776000  # 90 days in seconds
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # Keeps session even if browser is closed

@@ -31,6 +31,7 @@ class LoginView(View):
         user = authenticate(request, phone=phone,password=password)
         if user:
             login(request,user)
+            request.session.set_expiry(7776000)
             return redirect('home')
         return render(request, 'login.html')
 
