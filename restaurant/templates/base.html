@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menu Guy</title>
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li>
+          <a href="{ % url 'home' % }">Home</a>
+          <a href="{% url 'signup' %}">Register</a>
+        </li>
+      </ul>
+    </nav>
+    <div class="content">
+      {% block content %}
+      <!-- Page-specific content goes here -->
+      {% endblock %}
+    </div>
+  </body>
+</html>
