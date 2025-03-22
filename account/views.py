@@ -1,7 +1,7 @@
 from django import forms
 
 from django.shortcuts import render, redirect
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
 
 from django.views.generic import ListView, View
 from .forms import UserForm
@@ -22,7 +22,17 @@ class SignupView(View):
         return render(request, 'signup.html', {'form': form})
 
 class LoginView(View):
-    pass
+    def get(self,request):
+        return render(request, 'login.html')
+    
+    def post(self,request):
+        phone = request.POST.get('phone')
+        password = request.POST.get('password')
+        user = authenticate(request, phone=phone,password=password)
+        if user:
+            login(request,user)
+            return redirect('home')
+        return render(request, 'login.html')
 
 class LogoutView(View):
     pass
