@@ -13,6 +13,7 @@ class MenuItem(models.Model):
     price = models.DecimalField(max_digits=5, decimal_places=2);
     category = models.ForeignKey(Categories, on_delete=models.CASCADE);
     description = models.TextField()
+    image = models.ImageField(upload_to='menu_images/',null=True)
 
     def __str__(self):
         return f"{self.name}"

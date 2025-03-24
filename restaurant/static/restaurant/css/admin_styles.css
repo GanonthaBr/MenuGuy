@@ -1,0 +1,23 @@
+/********** Custom Django Admin Styling **********/
+body {
+  background: #f4f6f9;
+}
+.module caption {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+div.breadcrumbs {
+  background: #007bff;
+  color: white;
+  padding: 10px;
+}
+div.breadcrumbs a {
+  color: white;
+}
+#header {
+  background: #007bff !important;
+}
+#branding h1 {
+  color: white !important;
+}

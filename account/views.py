@@ -14,12 +14,15 @@ class SignupView(View):
         return render(request, 'signup.html', {'form': form})
     
     def post(self,request):
-        form = UserForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request,user)
-            return redirect('home')
-        return render(request, 'signup.html', {'form': form})
+        try:
+            form = UserForm(request.POST)
+            if form.is_valid():
+                user = form.save()
+                login(request,user)
+                return redirect('home')
+            return render(request, 'signup.html', {'form': form})
+        except Exception:
+            return render(request, 'signup.html', {'form': form})
 
 class LoginView(View):
     def get(self,request):
