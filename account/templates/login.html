@@ -2,7 +2,7 @@
 <div class="coontainer">
   <div class="row">
     <div class="col-10">
-      <div class="card p-4 shadow" style="width: 350px">
+      <div class="card p-4 shadow">
         <h2 class="text-center">Login</h2>
         {% if error %}
         <div class="alert alert-danger">{{ error }}</div>
@@ -11,11 +11,18 @@
           {% csrf_token %}
           <div class="mb-3">
             <label for="phone" class="form-label">Phone Number</label>
-            <input type="text" class="form-control" name="phone" required />
+            <input
+              id="phone"
+              type="text"
+              class="form-control"
+              name="phone"
+              required
+            />
           </div>
           <div class="mb-3">
             <label for="password" class="form-label">Password</label>
             <input
+              id="password"
               type="password"
               class="form-control"
               name="password"

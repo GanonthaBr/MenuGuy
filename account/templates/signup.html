@@ -8,11 +8,18 @@
           {% csrf_token %}
           <div class="mb-3">
             <label for="phone" class="form-label">Phone Number</label>
-            <input type="text" class="form-control" name="phone" required />
+            <input
+              id="phone"
+              type="text"
+              class="form-control"
+              name="phone"
+              required
+            />
           </div>
           <div class="mb-3">
             <label for="password1" class="form-label">Password</label>
             <input
+              id="password1"
               type="password"
               class="form-control"
               name="password1"
@@ -22,6 +29,7 @@
           <div class="mb-3">
             <label for="password2" class="form-label">Confirm Password</label>
             <input
+              id="password2"
               type="password"
               class="form-control"
               name="password2"
