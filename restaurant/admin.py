@@ -3,6 +3,26 @@ from .models import CartItem, Categories, MenuItem,Order
 from account.models import User
 
 # Register your models here.
+from django.contrib import admin
+from django.contrib.admin import AdminSite
+
+class MyAdminSite(AdminSite):
+    site_header = "My Custom Admin"
+    site_title = "Admin Panel"
+    index_title = "Welcome to My Admin Panel"
+
+admin_site = MyAdminSite()
+
+# Register styles and scripts
+admin.site.site_url = None  # Remove "View Site" link
+
+class MyModelAdmin(admin.ModelAdmin):
+    class Media:
+        css = {"all": ("admin/css/custom.css",)}
+        js = ("admin/js/custom.js",)
+
+# Apply to models
+
 class UserAdmin(admin.ModelAdmin):
     list_display = ['username', 'email','phone']
 
@@ -27,9 +47,9 @@ class OrderAdmin(admin.ModelAdmin):
         return ", ".join([str(item) for item in obj.items.all()])
     display_items.short_description = 'Items'
 #resgister the model classes
-admin.site.register(MenuItem, MenuItemAdmin)
-admin.site.register(Categories, CategoriesAdmin)
-admin.site.register(CartItem, CartItemAdmin)
-admin.site.register(Order,OrderAdmin)
+admin_site.register(MenuItem, MenuItemAdmin)
+admin_site.register(Categories, CategoriesAdmin)
+admin_site.register(CartItem, CartItemAdmin)
+admin_site.register(Order,OrderAdmin)
 
 
