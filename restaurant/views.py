@@ -1,24 +1,35 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView,View
-from django.http import HttpResponse
-
 from restaurant.mixins import AdminRequiredMixin
 from .models import Categories, MenuItem, CartItem
 # Create your views here.
 
-def home(request):
-    return render(request,'home.html')
+class MenuView(LoginRequiredMixin,ListView):
+    model = Categories
+    template_name = "menu.html"
+    context_object_name = "categories"
 
-class MenuView(LoginRequiredMixin, ListView):
-    model = MenuItem
-    template_name = 'menu.html'
-    context_object_name = 'menu_items'
+    def get_number(self,**kwargs):
+        total=0
+        items = CartItem.objects.filter(user=self.request.user)
+        for i in items:
+            total += 1
+        return total
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        selected_category = self.request.GET.get("categories", "all")
+        
+        if selected_category == "all":
+            menu_items = MenuItem.objects.all()
+        else:
+            menu_items = MenuItem.objects.filter(categories__id=selected_category)
+        
         context["cart_items"] = CartItem.objects.filter(user=self.request.user)
-        context["categories"] = Categories.objects.all()
+        context["menu_items"] = menu_items
+        context['number'] =   self.get_number()
+        context["selected_category"] = selected_category
         return context
 class AdminMenuItemCreateView(AdminRequiredMixin, View):
     def get(self, request):

@@ -1,97 +1,121 @@
 {% extends 'base.html' %} {% block title %} MenuGuy|Cart {% endblock title %}
 {%load custom_filters %} {%block content %}
 <div class="container mt-5">
-  <h2 class="mb-4">Votre Panier</h2>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+      <h2 class="mb-4">Votre Panier</h2>
 
-  {% if cart_items %}
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Eléments</th>
-        <th>Quantités</th>
-        <th>Prix</th>
-        <th>Total</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for cart_item in cart_items %}
-      <tr>
-        <td>{{ cart_item.item.name }}</td>
-        <td>{{ cart_item.quantity }}</td>
-        <td>{{ cart_item.item.price }}</td>
-        <td>{{ cart_item.item.price|multiply:cart_item.quantity }} FCFA</td>
-        <td>
-          <a
-            href="{% url 'increase_quantity' cart_item.id %}"
-            class="btn btn-sm btn-success"
-            >+</a
-          >
-          <a
-            href="{% url 'decrease_quantity' cart_item.id %}"
-            class="btn btn-sm btn-warning"
-            >-</a
-          >
-          <button
-            class="btn btn-sm btn-danger"
-            data-bs-toggle="modal"
-            data-bs-target="#confirmDeleteModal{{ cart_item.id }}"
-          >
-            Remove
-          </button>
-        </td>
-      </tr>
-      <div
-        class="modal fade"
-        id="confirmDeleteModal{{ cart_item.id }}"
-        tabindex="-1"
-        aria-labelledby="confirmDeleteLabel{{ cart_item.id }}"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="confirmDeleteLabel{{ cart_item.id }}">
-                Confirmez la suppression!
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              Voulez-vous vraime retirer
-              <strong>{{ cart_item.item.name }}</strong> de votre panier?
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Non
-              </button>
+      {% if cart_items %}
+      <table class="table table-striped col-lg-12 col-sm-12 col-md-12">
+        <thead>
+          <tr>
+            <th class="">Eléments</th>
+            <th class="">Quantités</th>
+            <th class="">Prix</th>
+            <th class="">Total</th>
+            <th class="">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for cart_item in cart_items %}
+          <tr>
+            <td>{{ cart_item.item.name }}</td>
+            <td>{{ cart_item.quantity }}</td>
+            <td>{{ cart_item.item.price }}</td>
+            <td>{{ cart_item.item.price|multiply:cart_item.quantity }}</td>
+            <td>
               <a
-                class="btn btn-danger"
-                href="{% url 'remove_cart_item' cart_item.id %}"
-                >Oui</a
+                href="{% url 'increase_quantity' cart_item.id %}"
+                class="btn btn-sm btn-success"
+                >+</a
               >
+              <a
+                href="{% url 'decrease_quantity' cart_item.id %}"
+                class="btn btn-sm btn-warning"
+                >-</a
+              >
+              <button
+                class="btn btn-sm btn-danger"
+                data-bs-toggle="modal"
+                data-bs-target="#confirmDeleteModal{{ cart_item.id }}"
+              >
+                Supprimer
+              </button>
+            </td>
+          </tr>
+          <div
+            class="modal fade"
+            id="confirmDeleteModal{{ cart_item.id }}"
+            tabindex="-1"
+            aria-labelledby="confirmDeleteLabel{{ cart_item.id }}"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5
+                    class="modal-title"
+                    id="confirmDeleteLabel{{ cart_item.id }}"
+                  >
+                    Confirmez la suppression!
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  Voulez-vous vraime retirer
+                  <strong>{{ cart_item.item.name }}</strong> de votre panier?
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Non
+                  </button>
+                  <a
+                    class="btn btn-danger"
+                    href="{% url 'remove_cart_item' cart_item.id %}"
+                    >Oui</a
+                  >
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      {% endfor %}
-    </tbody>
-  </table>
+          {% endfor %}
+        </tbody>
+      </table>
+      <style>
+        @media (max-width: 576px) {
+          table {
+            font-size: 1.2rem;
+          }
+        }
+      </style>
 
-  <div class="text-end">
-    <h4>Prix Total: {{ total }} FCFA</h4>
-    <a href="#" class="btn btn-primary">Checkout</a>
+      <div class="text-end">
+        <h4>Prix Total: {{ total }} FCFA</h4>
+        <a href="#" class="btn btn-primary">Checkout</a>
+      </div>
+      {% else %}
+      <p>Your cart is empty.</p>
+      {% endif %}
+    </div>
   </div>
-  {% else %}
-  <p>Your cart is empty.</p>
-  {% endif %}
+</div>
+<!-- continue shopping -->
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <a class="btn btn-info" href="{% url 'home' %}"
+        >Ajouter d'autres Elements</a
+      >
+    </div>
+  </div>
 </div>
 {% endblock content %}

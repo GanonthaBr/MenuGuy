@@ -11,22 +11,43 @@
   </div>
 
   <!-- Cart and Menu Navigation -->
-  <div class="d-flex justify-content-between mt-3">
+  <div class="d-flex bg-body-secondary justify-content-between mt-3">
     <h4>Menu</h4>
-    <a href="{% url 'cart' %}" class="btn btn-primary">Panier </a>
+    <a href="{% url 'cart' %}" class="btn position-relative">
+      <i class="bi bi-cart"></i>
+
+      {% if number %}
+
+      <span
+        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+      >
+        {{ number }}
+        <span class="visually-hidden">unread messages</span>
+      </span>
+      {% endif %}
+    </a>
   </div>
 
   <!-- Category Scrolling -->
-  <div class="category-list mt-3">
+  <div class="mb-3">
+    <button
+      class="btn btn-outline-secondary category-btn active"
+      data-category="all"
+    >
+      All
+    </button>
     {% for category in categories %}
-    <div class="category-item" onclick="filterMenu('{{ category.id }}')">
+    <button
+      class="btn btn-outline-secondary category-btn"
+      data-category="{{ category.id }}"
+    >
       {{ category.name }}
-    </div>
+    </button>
     {% endfor %}
   </div>
 
   <!-- Menu Items -->
-  <div class="row mt-4">
+  <div class="row col-lg-12 col-md-12 col-sm-12 mt-4">
     {% for item in menu_items %}
     <div class="col-md-4 menu-item" data-category="{{ item.category.id }}">
       <div>
@@ -56,17 +77,44 @@
 </div>
 
 <script>
-  function filterMenu(categoryId) {
-    document.querySelectorAll(".menu-item").forEach((item) => {
-      if (
-        item.getAttribute("data-category") === categoryId ||
-        categoryId === "all"
-      ) {
-        item.style.display = "block";
-      } else {
-        item.style.display = "none";
-      }
+  // function filterMenu(categoryId) {
+  //   document.querySelectorAll(".menu-item").forEach((item) => {
+  //     if (
+  //       item.getAttribute("data-category") === categoryId ||
+  //       categoryId === "all"
+  //     ) {
+  //       item.style.display = "block";
+  //     } else {
+  //       item.style.display = "none";
+  //     }
+  //   });
+  // }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const categoryButtons = document.querySelectorAll(".category-btn");
+    const menuItems = document.querySelectorAll(".menu-item");
+
+    categoryButtons.forEach((button) => {
+      button.addEventListener("click", function () {
+        const selectedCategory = this.getAttribute("data-category");
+
+        // Remove active class from all buttons and set it on the clicked one
+        categoryButtons.forEach((btn) => btn.classList.remove("active"));
+        this.classList.add("active");
+
+        // Show or hide menu items based on selected category
+        menuItems.forEach((item) => {
+          if (
+            selectedCategory === "all" ||
+            item.getAttribute("data-category") === selectedCategory
+          ) {
+            item.style.display = "block";
+          } else {
+            item.style.display = "none";
+          }
+        });
+      });
     });
-  }
+  });
 </script>
 {% endblock content %}
