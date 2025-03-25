@@ -43,3 +43,7 @@ class LogoutView(View):
         logout(request)
         return redirect('login')
 
+class ProfileView(View):
+    def get(self, request):
+        user = request.user
+        return render(request, 'profile.html',{'user':user})
