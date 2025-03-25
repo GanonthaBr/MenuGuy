@@ -4,14 +4,14 @@
   <div class="row">
     <div class="col-12 col-md-12 col-sm-4">
       <div class="card p-4 shadow">
-        <h2 class="text-center">Login</h2>
+        <h2 class="text-center">Se Connecter</h2>
         {% if error %}
         <div class="alert alert-danger">{{ error }}</div>
         {% endif %}
         <form method="post">
           {% csrf_token %}
           <div class="mb-3">
-            <label for="phone" class="form-label">Phone Number</label>
+            <label for="phone" class="form-label">Numero de Télephone</label>
             <input
               id="phone"
               type="text"
@@ -21,7 +21,7 @@
             />
           </div>
           <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
+            <label for="password" class="form-label">Mot de passe</label>
             <input
               id="password"
               type="password"
@@ -30,10 +30,11 @@
               required
             />
           </div>
-          <button type="submit" class="btn btn-primary w-100">Login</button>
+          <button type="submit" class="btn btn-primary w-100">Connecter</button>
         </form>
         <div class="text-center mt-3">
-          Don't have an account? <a href="{% url 'signup' %}">Sign up</a>
+          Vous n'avez pas de compte?
+          <a href="{% url 'signup' %}">Créer un compte</a>
         </div>
       </div>
     </div>
