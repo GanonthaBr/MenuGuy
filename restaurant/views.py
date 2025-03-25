@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView,View
 from django.http import HttpResponse
@@ -56,8 +56,32 @@ class AddToCartView(LoginRequiredMixin, View):
         cart_item.save()
         return redirect('home')
 
-    def remove_from_cart(request, item_id):
-        cart_item = CartItem.objects.get(id=item_id)
-        cart_item.delete()
-        return redirect('home')
+  
+
+class IncreaseQuantityView(LoginRequiredMixin, View):
+    def get(self, request, item_id):
+        print("INCREASED")
+        cart_item = get_object_or_404(CartItem, id=item_id, user=request.user)
+        cart_item.quantity += 1
+        cart_item.save()
+        return redirect("cart")
         
+class DecreaseQuantityView(LoginRequiredMixin, View):
+    print("DECREASED")
+
+    def get(self, request, item_id):
+        cart_item = get_object_or_404(CartItem, id=item_id, user=request.user)
+        if cart_item.quantity > 1:
+            cart_item.quantity -= 1
+            cart_item.save()
+        else:
+            cart_item.delete()
+        return redirect("cart")
+
+class RemoveCartItemView(LoginRequiredMixin, View):
+    print("REMOVED")
+
+    def get(self, request, item_id):
+        cart_item = get_object_or_404(CartItem, id=item_id, user=request.user)
+        cart_item.delete()
+        return redirect("cart")

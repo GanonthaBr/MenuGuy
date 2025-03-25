@@ -1,13 +1,97 @@
 {% extends 'base.html' %} {% block title %} MenuGuy|Cart {% endblock title %}
-{%block content %}
-<h1>Cart</h1>
+{%load custom_filters %} {%block content %}
+<div class="container mt-5">
+  <h2 class="mb-4">Votre Panier</h2>
 
-{% for cart_item in cart_items %}
-<p>{{cart_item.quantity}} - {{cart_item.item}}</p>
-<p>{{cart_item.id}}</p>
-<p>${{cart_item.price}}</p>
+  {% if cart_items %}
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Eléments</th>
+        <th>Quantités</th>
+        <th>Prix</th>
+        <th>Total</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for cart_item in cart_items %}
+      <tr>
+        <td>{{ cart_item.item.name }}</td>
+        <td>{{ cart_item.quantity }}</td>
+        <td>{{ cart_item.item.price }}</td>
+        <td>{{ cart_item.item.price|multiply:cart_item.quantity }} FCFA</td>
+        <td>
+          <a
+            href="{% url 'increase_quantity' cart_item.id %}"
+            class="btn btn-sm btn-success"
+            >+</a
+          >
+          <a
+            href="{% url 'decrease_quantity' cart_item.id %}"
+            class="btn btn-sm btn-warning"
+            >-</a
+          >
+          <button
+            class="btn btn-sm btn-danger"
+            data-bs-toggle="modal"
+            data-bs-target="#confirmDeleteModal{{ cart_item.id }}"
+          >
+            Remove
+          </button>
+        </td>
+      </tr>
+      <div
+        class="modal fade"
+        id="confirmDeleteModal{{ cart_item.id }}"
+        tabindex="-1"
+        aria-labelledby="confirmDeleteLabel{{ cart_item.id }}"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="confirmDeleteLabel{{ cart_item.id }}">
+                Confirmez la suppression!
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              Voulez-vous vraime retirer
+              <strong>{{ cart_item.item.name }}</strong> de votre panier?
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Non
+              </button>
+              <a
+                class="btn btn-danger"
+                href="{% url 'remove_cart_item' cart_item.id %}"
+                >Oui</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </tbody>
+  </table>
 
-<a href="{% url 'remove' cart_item.id %}">Remove</a>
-{% endfor %}
-<p>{{total}}</p>
+  <div class="text-end">
+    <h4>Prix Total: {{ total }} FCFA</h4>
+    <a href="#" class="btn btn-primary">Checkout</a>
+  </div>
+  {% else %}
+  <p>Your cart is empty.</p>
+  {% endif %}
+</div>
 {% endblock content %}
