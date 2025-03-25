@@ -3,11 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% load static %}
+    <link rel="icon" href="{% static 'restaurant/images/restau.jpg' %}" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <title>Menu Guy</title>
+    <title>{% block title %}Menu Guy{% endblock %}</title>
   </head>
   <style>
     .category-list {
@@ -35,7 +37,13 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'home' %}">Menu Guy</a>
+        <a class="navbar-brand" href="{% url 'home' %}">
+          <img
+            src="{% static 'restaurant/images/restau.jpg' %}"
+            alt="Restaurant Logo"
+            width="80"
+          />
+        </a>
         <button
           class="navbar-toggler"
           type="button"
@@ -50,10 +58,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'home' %}">Home</a>
+              <a class="nav-link" href="{% url 'home' %}">Accueil</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'signup' %}">Register</a>
+              <a class="nav-link" href="{% url 'signup' %}">Creer un Compte</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'profile' %}">Profile</a>

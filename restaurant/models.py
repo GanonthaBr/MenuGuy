@@ -21,7 +21,7 @@ class MenuItem(models.Model):
 class CartItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE);
     item = models.ForeignKey(MenuItem, on_delete=models.CASCADE);
-    quantity = models.IntegerField()
+    quantity = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.item.name} x {self.quantity}"

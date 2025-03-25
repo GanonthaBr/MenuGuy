@@ -1,0 +1,13 @@
+{% extends 'base.html' %} {% block title %} MenuGuy|Cart {% endblock title %}
+{%block content %}
+<h1>Cart</h1>
+
+{% for cart_item in cart_items %}
+<p>{{cart_item.quantity}} - {{cart_item.item}}</p>
+<p>{{cart_item.id}}</p>
+<p>${{cart_item.price}}</p>
+
+<a href="{% url 'remove' cart_item.id %}">Remove</a>
+{% endfor %}
+<p>{{total}}</p>
+{% endblock content %}

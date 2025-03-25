@@ -10,7 +10,7 @@ from .models import Categories, MenuItem, CartItem
 def home(request):
     return render(request,'home.html')
 
-class MenuView(ListView):
+class MenuView(LoginRequiredMixin, ListView):
     model = MenuItem
     template_name = 'menu.html'
     context_object_name = 'menu_items'
@@ -46,3 +46,18 @@ class CartView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context["total"] = sum(item.item.price * item.quantity for item in self.get_queryset())
         return context
+    
+class AddToCartView(LoginRequiredMixin, View):
+    def get(self, request, item_id):
+        item = MenuItem.objects.get(id=item_id)
+        cart_item, created = CartItem.objects.get_or_create(item=item, 
+                                                       user=request.user)
+        cart_item.quantity += 1
+        cart_item.save()
+        return redirect('home')
+
+    def remove_from_cart(request, item_id):
+        cart_item = CartItem.objects.get(id=item_id)
+        cart_item.delete()
+        return redirect('home')
+        

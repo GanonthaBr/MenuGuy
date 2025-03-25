@@ -1,7 +1,12 @@
 from django.contrib import admin
 from .models import CartItem, Categories, MenuItem
+from account.models import User
 
 # Register your models here.
+class UserAdmin(admin.ModelAdmin):
+    list_display = ['username', 'email','phone']
+
+admin.site.register(User,UserAdmin)
 class MenuItemAdmin(admin.ModelAdmin):
     list_display = ['name', 'price', 'description','image_preview']
 

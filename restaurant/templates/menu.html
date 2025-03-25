@@ -1,6 +1,7 @@
-{% extends 'base.html' %} {% block content %} {% load static %}
+{% extends 'base.html' %} {% block title %} MenuGuy|Menu {% endblock title %}
+{%block content %} {% load static %}
 <div class="container mt-4">
-  <h2 class="text-center">Welcome to</h2>
+  <h2 class="text-center">Bienvenu au Restaurant DELICIOUS</h2>
   <div class="text-center">
     <img
       src="{% static 'restaurant/images/restau.jpg' %}"
@@ -12,7 +13,7 @@
   <!-- Cart and Menu Navigation -->
   <div class="d-flex justify-content-between mt-3">
     <h4>Menu</h4>
-    <a href="#" class="btn btn-primary">Cart </a>
+    <a href="{% url 'cart' %}" class="btn btn-primary">Panier </a>
   </div>
 
   <!-- Category Scrolling -->
@@ -46,7 +47,9 @@
       <h5>{{ item.name }}</h5>
       <p>${{ item.price }}</p>
 
-      <a href="#" class="btn btn-success">Add to Cart</a>
+      <a href="{% url 'add_to_cart' item.id %}" class="btn btn-success"
+        >Ajouter au Panier</a
+      >
     </div>
     {% endfor %}
   </div>
