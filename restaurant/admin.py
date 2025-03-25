@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CartItem, Categories, MenuItem
+from .models import CartItem, Categories, MenuItem,Order
 from account.models import User
 
 # Register your models here.
@@ -20,8 +20,16 @@ class CategoriesAdmin(admin.ModelAdmin):
 class CartItemAdmin(admin.ModelAdmin):
     list_display = ['item', 'quantity']
 
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ['user',  'display_items']
+
+    def display_items(self, obj):
+        return ", ".join([str(item) for item in obj.items.all()])
+    display_items.short_description = 'Items'
 #resgister the model classes
 admin.site.register(MenuItem, MenuItemAdmin)
 admin.site.register(Categories, CategoriesAdmin)
 admin.site.register(CartItem, CartItemAdmin)
+admin.site.register(Order,OrderAdmin)
+
 

@@ -100,8 +100,14 @@
 
       <div class="text-end">
         <h4>Prix Total: {{ total }} FCFA</h4>
-        <a href="#" class="btn btn-primary">Checkout</a>
+        <!-- <a href="{% url 'place_order' %}" class="btn btn-primary">Checkout</a>
+          -->
+        <form action="{% url 'place_order' %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-success">Place Order</button>
+        </form>
       </div>
+
       {% else %}
       <p>Your cart is empty.</p>
       {% endif %}
