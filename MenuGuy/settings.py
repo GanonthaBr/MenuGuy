@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -138,3 +139,23 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #keep user logged in for 90 days
 SESSION_COOKIE_AGE = 7776000  # 90 days in seconds
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # Keeps session even if browser is closed
+
+JAZZMIN_SETTINGS = {
+    "site_title": "QuickMenu Admin",
+    "site_header": "QuickMenu Dashboard",
+    "site_brand": "QuickMenu",
+    "welcome_sign": "Welcome to QuickMenu Admin Panel",
+    "copyright": "QuickMenu 2025",
+    "search_model": ["core.MenuItem", "core.Category"],  # Models that can be searched
+    "show_sidebar": True,  # Show sidebar menu
+    "navigation_expanded": True,  # Keep menu expanded
+    "icons": {
+        "auth.User": "fas fa-user",
+        "core.MenuItem": "fas fa-utensils",
+        "core.Category": "fas fa-list",
+        "core.CartItem": "fas fa-shopping-cart",
+    },
+    "topmenu_links":[
+        {"app":"restaurant"}
+    ]
+}
