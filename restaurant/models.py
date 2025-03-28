@@ -26,6 +26,14 @@ class CartItem(models.Model):
     def __str__(self):
         return f"{self.item.name} x {self.quantity}"
 
+class OrderItem(models.Model):
+    order = models.ForeignKey("Order", on_delete=models.CASCADE, related_name="order_items")
+    item = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.item.name} x {self.quantity}"
+    
 class Order(models.Model):
     STATUS = (
         ('En attente', 'En attente'),
@@ -37,13 +45,12 @@ class Order(models.Model):
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-    items = models.ManyToManyField("CartItem")
     status = models.CharField(choices=STATUS, max_length=50,default='En attente')
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
     def calculate_total(self):
         # Recalculate total price based on ordered items.
-        self.total_price = sum(item.item.price * item.quantity for item in self.items.all())
+        self.total_price = sum(item.item.price * item.quantity for item in self.order_items.all())
         self.save()
 
     def __str__(self):

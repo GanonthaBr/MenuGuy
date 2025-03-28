@@ -41,11 +41,13 @@ class CartItemAdmin(admin.ModelAdmin):
     list_display = ['item', 'quantity']
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['user',  'display_items']
+    list_display = ['username', 'display_items','total_price','created_at','status']
 
     def display_items(self, obj):
-        return ", ".join([str(item) for item in obj.items.all()])
+        return ", ".join([f"{item.item.name} ({item.quantity})" for item in obj.order_items.all()])
     display_items.short_description = 'Items'
+    def username(self,obj):
+        return obj.user.username
 #resgister the model classes
 admin_site.register(MenuItem, MenuItemAdmin)
 admin_site.register(Categories, CategoriesAdmin)

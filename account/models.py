@@ -24,8 +24,7 @@ class UserManager(BaseUserManager):
 class User(AbstractUser):
     email = models.EmailField(unique=True, blank=True, null=True)
     phone = models.CharField(max_length=15, unique=True)
-    
-    username = None  # Remove the username field
+    username = models.TextField(max_length=255,null=False)
     USERNAME_FIELD = 'phone'
     REQUIRED_FIELDS = []  # No additional required fields
 

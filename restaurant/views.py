@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView,View
 from restaurant.mixins import AdminRequiredMixin
-from .models import Categories, MenuItem, CartItem,Order
+from .models import Categories, MenuItem, CartItem,Order, OrderItem
 # Create your views here.
 
 class MenuView(LoginRequiredMixin,ListView):
@@ -97,13 +97,24 @@ class RemoveCartItemView(LoginRequiredMixin, View):
 class PlaceOrderView(View):
     def post(self, request):
         cart_items = CartItem.objects.filter(user=request.user)
+        # print(cart_items)
         if not cart_items.exists():
             return redirect("cart")  # Prevent empty orders
         order = Order.objects.create(user=request.user)
-        order.items.set(cart_items)  # Add all cart items to the order
+        
+        for cart_item in cart_items:
+            OrderItem.objects.create(
+                order=order,
+                item=cart_item.item,
+                quantity=cart_item.quantity
+            )
         order.calculate_total()
+        order.save() 
+
+        
         # Clear cart after placing order
         cart_items.delete()
+        
         return redirect("home")
 
 class OrderDetailView(View):
