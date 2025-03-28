@@ -71,14 +71,12 @@ class AddToCartView(LoginRequiredMixin, View):
 
 class IncreaseQuantityView(LoginRequiredMixin, View):
     def get(self, request, item_id):
-        print("INCREASED")
         cart_item = get_object_or_404(CartItem, id=item_id, user=request.user)
         cart_item.quantity += 1
         cart_item.save()
         return redirect("cart")
         
 class DecreaseQuantityView(LoginRequiredMixin, View):
-    print("DECREASED")
 
     def get(self, request, item_id):
         cart_item = get_object_or_404(CartItem, id=item_id, user=request.user)
